@@ -1,23 +1,38 @@
+import groovy.xml.XmlSlurper
+
+class gvar {
+    //Global variables
+    static final String ls = System.getProperty("line.separator")
+    static final String yt_address = "https://www.youtube.com/"
+    static final String yt_xml_address = "https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D"
+}
+
 static void main(String[] args) {
 
-    //Set variables to pull data from
-    final String YT_ADDRESS = "https://www.youtube.com/"
-    final String YT_VID_XML_PREFIX = "https://www.youtube.com/oembed?format=xml&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D"
+    //Get vars from settings.xml
+    def settings = new XmlSlurper().parse("settings.xml")
+    String channel_id = settings.channelID
+    String videos = settings.videos
+    String csv = settings.csv
+    Integer videosNum = videos.toInteger()
+
     def htmlFile = new File("html_output.html")
 
     MakeHTMLHeader(htmlFile, "Test")
+    htmlFile.append("<p>" + gvar.ls)
+    htmlFile.append(channel_id + gvar.ls)
+    htmlFile.append(videosNum + gvar.ls)
+    htmlFile.append(csv + gvar.ls)
+    htmlFile.append("</p>" + gvar.ls)
     MakeHTMLFooter(htmlFile)
 
 }
 static void MakeHTMLHeader(File file, String title) {
-    //initialize file
-    def ls = System.getProperty("line.separator")
     file.delete()
     file.createNewFile()
-    file.append("<html>" + ls + "<head>" + ls + "<title>" + title + "</title>" + ls + "</head>" + ls + "<body>" + ls)
+    file.append("<html lang=\"en\">" + gvar.ls + "<head>" + gvar.ls + "<title>" + title + "</title>" + gvar.ls + "</head>" + gvar.ls + "<body>" + gvar.ls)
 }
 
 static void MakeHTMLFooter(File file) {
-    //close file
-    file.append("</body>" + System.getProperty("line.separator") + "</html>")
+    file.append("</body>" + gvar.ls + "</html>")
 }
