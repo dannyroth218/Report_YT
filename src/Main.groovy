@@ -16,8 +16,11 @@ static void main(String[] args) {
     String csv = settings.csv
     Integer videosNum = videos.toInteger()
 
+    //TODO: Get video ids from channel
+
     def htmlFile = new File("html_output.html")
 
+    //The following is test code
     MakeHTMLHeader(htmlFile, "Test")
     htmlFile.append("<p>" + gvar.ls)
     htmlFile.append(channel_id + gvar.ls)
@@ -35,4 +38,12 @@ static void MakeHTMLHeader(File file, String title) {
 
 static void MakeHTMLFooter(File file) {
     file.append("</body>" + gvar.ls + "</html>")
+}
+
+static void SlurpAndBuildVideoDetails(String ID) {
+
+    def oembedXML = gvar.yt_xml_address + ID
+    def videoDetails = new XmlSlurper().parse(oembedXML)
+
+
 }
